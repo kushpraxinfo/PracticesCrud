@@ -18,7 +18,7 @@ if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $targetFile)) {
 }
 
 // Save data to database
-$sql = "INSERT INTO products (name, p_description, price, p_image) 
+$sql = "INSERT INTO products (p_name, p_description, price, p_image) 
         VALUES ('$p_name', '$description', $price, '$filename')";
 
 if (mysqli_query($conn, $sql)) {

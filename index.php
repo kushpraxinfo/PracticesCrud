@@ -19,13 +19,11 @@
     <h2>Project CRUD</h2>
   </div>
   <hr>
-  <!-- search functionallity -->
+
   <form method="GET" class="d-flex justify-content-lg-end me-5 mb-3">
-    <input type="text" name="search" class="form-control w-25 me-2" value="<?php echo isset($_GET['search']) ? ($_GET['search']) : '' ?>">
+    <input type="text" name="search" placeholder="Search by Name Or Price" class="form-control w-25 me-2">
     <button type="submit" class="btn btn-success">Search</button>
   </form>
-
-  <!-- end search functionallity -->
 
   <div class="button-add mb-2 d-flex justify-content-lg-end me-5 ">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add Products</button>
@@ -33,7 +31,7 @@
   <?php
   // $toggle =  $_GET['sort'] . "ASC" ? $_GET['sort'] . "DESC " : $_GET['sort'] . "ASC" ;
 
-  $sort = isset($_GET['sort']) ? $_GET['sort'] : 1;
+  $sort =  isset($_GET['sort']) ? $_GET['sort'] : 1;
   $order = isset($_GET['order']) && $_GET['order'] == "ASC" ? "ASC" : "DESC";
   $toggle = $order == "ASC" ? "DESC" : "ASC";
 
@@ -42,7 +40,7 @@
     <thead>
       <tr>
         <th scope="col"><a href="?sort=p_id&order=<?php echo $toggle; ?>">Product_Id</a></th>
-        <th scope="col"><a href="?sort=name&order=<?php echo $toggle; ?>">Name</a></th>
+        <th scope="col"><a href="?sort=p_name&order=<?php echo $toggle; ?>">Name</a></th>
         <th scope="col">Description</th>
         <th scope="col"><a href="?sort=price&order=<?php echo $toggle; ?>">Price</a></th>
         <th scope="col">Product Image</th>
@@ -54,7 +52,6 @@
       include 'db.php';
 
       $limit = 5;
-
       // Current page
       $page = isset($_GET['page']) ? $_GET['page'] : 1;
       $start = ($page - 1) * $limit;
@@ -64,8 +61,8 @@
         $search =  $_GET['search'];
 
         // Query when searching
-        $sql = "SELECT * FROM products WHERE name LIKE '%$search%' LIMIT $start, $limit";
-        $countSql = "SELECT COUNT(*) AS totalRecord FROM products WHERE name LIKE '%$search%'";
+        $sql = "SELECT * FROM products WHERE price LIKE '%$search%' or p_name LIKE '%$search%' LIMIT $start, $limit";
+        $countSql = "SELECT COUNT(*) AS totalRecord FROM products WHERE p_name LIKE '%$search%'";
       } else {
         // Query when no search
         $sql = "SELECT * FROM products ORDER BY $sort $order LIMIT $start, $limit";
@@ -77,7 +74,7 @@
         echo
         "<tr>
         <td>{$row['p_id']}</td>
-        <td>{$row['name']}</td>
+        <td>{$row['p_name']}</td>
         <td class='w-50'>{$row['p_description']}</td>
         <td>{$row['price']}</td>
         <td><img height='50px' src='./uploads/{$row["p_image"]}'></td>
@@ -96,14 +93,13 @@
   <div class="d-flex justify-content-center mt-4">
     <ul class="pagination">
       <?php
-      
       $countResult = mysqli_query($conn, $countSql);
       $totalRecords = mysqli_fetch_assoc($countResult)['totalRecord'];
       $totalPages = ceil($totalRecords / $limit);
 
       if ($page > 1) {
         echo "<li class='page-item'>
-              <a class='page-link' href='index.php?page=" . ($page - 1) . "'>Prev</a>
+                <a class='page-link' href='index.php?page=" . ($page - 1) . "'>Prev</a>
               </li>";
       }
 
@@ -114,14 +110,15 @@
         <a class='page-link' href='index.php?page=$i'>$i</a></li>";
       }
       if ($totalPages > $page) {
-           echo "<li class='page-item $active'>
+        echo "<li class='page-item $active'>
               <a class='page-link' href='index.php?page=" . ($page + 1) . "'>Next</a>
             </li>";
       }
+
       ?>
     </ul>
   </div>
-
+  <!--  end pagination link  -->
 
   <!-- modal  -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
