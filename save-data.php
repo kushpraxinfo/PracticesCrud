@@ -30,8 +30,4 @@ if (mysqli_query($conn, $sql)) {
 mysqli_close($conn);
 
 
-//   $searchParam = !empty($search) ? "&search=" . $search : "";
-      //   echo "<li class='page-item $active'>
-      //         <a class='page-link' href='index.php?page=$i$searchParam'>$i</a>
-      //       </li>";
 ?>

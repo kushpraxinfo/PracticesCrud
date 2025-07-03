@@ -31,7 +31,7 @@
   <?php
   // $toggle =  $_GET['sort'] . "ASC" ? $_GET['sort'] . "DESC " : $_GET['sort'] . "ASC" ;
 
-  $sort =  isset($_GET['sort']) ? $_GET['sort'] : 1;
+  $sort =  isset($_GET['sort']) ? $_GET['sort'] : 'p_id';
   $order = isset($_GET['order']) && $_GET['order'] == "ASC" ? "ASC" : "DESC";
   $toggle = $order == "ASC" ? "DESC" : "ASC";
 
@@ -61,7 +61,7 @@
         $search =  $_GET['search'];
 
         // Query when searching
-        $sql = "SELECT * FROM products WHERE price LIKE '%$search%' or p_name LIKE '%$search%' LIMIT $start, $limit";
+        $sql = "SELECT * FROM products WHERE price LIKE '%$search%' OR p_name LIKE '%$search%' LIMIT $start, $limit";
         $countSql = "SELECT COUNT(*) AS totalRecord FROM products WHERE p_name LIKE '%$search%'";
       } else {
         // Query when no search
@@ -94,7 +94,7 @@
     <ul class="pagination">
       <?php
       $countResult = mysqli_query($conn, $countSql);
-      $totalRecords = mysqli_fetch_assoc($countResult)['totalRecord'];
+      $totalRecords = mysqli_fetch_row($countResult)['totalRecord'];
       $totalPages = ceil($totalRecords / $limit);
 
       if ($page > 1) {
