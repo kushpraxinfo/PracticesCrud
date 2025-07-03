@@ -1,5 +1,5 @@
 <?php
-
+// this file must take variables from enviornment constants!
 
 $conn = mysqli_connect("localhost","root","","product-crud");
 
