@@ -18,7 +18,7 @@ if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $targetFile)) {
 }
 
 // Save data to database
-$sql = "INSERT INTO products (name, p_description, price, p_image) 
+$sql = "INSERT INTO products (p_name, p_description, price, p_image) 
         VALUES ('$p_name', '$description', $price, '$filename')";
 
 if (mysqli_query($conn, $sql)) {
@@ -30,8 +30,4 @@ if (mysqli_query($conn, $sql)) {
 mysqli_close($conn);
 
 
-//   $searchParam = !empty($search) ? "&search=" . $search : "";
-      //   echo "<li class='page-item $active'>
-      //         <a class='page-link' href='index.php?page=$i$searchParam'>$i</a>
-      //       </li>";
 ?>

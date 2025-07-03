@@ -31,7 +31,7 @@ if (isset($_POST['update'])) {
     }
 
     $sql = "UPDATE products SET 
-                name='$name', 
+                p_name='$name', 
                 price='$price', 
                 p_description='$desc',
                 p_image='$image'
@@ -52,7 +52,7 @@ if (isset($_POST['update'])) {
 <div class="container ">
    <form method="POST" enctype="multipart/form-data">
         <label>Product Name:</label><br>
-        <input type="text" name="product_name" value="<?php echo  $row['name'] ?>" required><br><br>
+        <input type="text" name="product_name" value="<?php echo  $row['p_name'] ?>" required><br><br>
 
         <label>Price:</label><br>
         <input type="text" name="product_price" value="<?php echo  $row['price'] ?>" required><br><br>
