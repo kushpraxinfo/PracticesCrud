@@ -1,11 +1,11 @@
 <?php
-include 'db.php';
+require 'db.php';
 
 $p_name = $_POST['product_name'];
 $description = $_POST['description'];
 $price = $_POST['price'];
 
-$targetDir = "uploads/";
+$targetDir = "UPLOAD_PATH";
 $filename = basename($_FILES["product_image"]["name"]);
 $targetFile = $targetDir . $filename;
 
@@ -18,7 +18,7 @@ if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $targetFile)) {
 }
 
 // Save data to database
-$sql = "INSERT INTO products (p_name, p_description, price, p_image) 
+$sql = "INSERT INTO products (name, description, price, image) 
         VALUES ('$p_name', '$description', $price, '$filename')";
 
 if (mysqli_query($conn, $sql)) {

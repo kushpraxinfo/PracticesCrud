@@ -1,12 +1,12 @@
 <?php
 
-include 'db.php';
+require 'db.php';
 
 // print_r($_GET);
 if (isset($_GET['p_id'])) {
     $id = $_GET['p_id'];
 
-    $sql = "SELECT * FROM products WHERE p_id = $id";
+    $sql = "SELECT * FROM products WHERE id = $id";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
@@ -24,18 +24,18 @@ if (isset($_POST['update'])) {
     // Check if a new image was uploaded
     if (!empty($_FILES['product_image']['name'])) {
         $image = basename($_FILES['product_image']['name']);
-        move_uploaded_file($_FILES['product_image']['tmp_name'], "uploads/" . $image);
+        move_uploaded_file($_FILES['product_image']['tmp_name'], UPLOAD_PATH . $image);
     } else {
         // No new image uploaded, keep old one
-        $image = $row['p_image'];
+        $image = $row['image'];
     }
 
     $sql = "UPDATE products SET 
-                p_name='$name', 
+                name='$name', 
                 price='$price', 
-                p_description='$desc',
-                p_image='$image'
-            WHERE p_id=$id";
+                description='$desc',
+                image='$image'
+            WHERE id = $id";
 
     if (mysqli_query($conn, $sql)) {
         header("Location: index.php");
@@ -52,16 +52,16 @@ if (isset($_POST['update'])) {
 <div class="container ">
    <form method="POST" enctype="multipart/form-data">
         <label>Product Name:</label><br>
-        <input type="text" name="product_name" value="<?php echo  $row['p_name'] ?>" required><br><br>
+        <input type="text" name="product_name" value="<?php echo  $row['name'] ?>" required><br><br>
 
         <label>Price:</label><br>
         <input type="text" name="product_price" value="<?php echo  $row['price'] ?>" required><br><br>
 
         <label>Description:</label><br>
-        <textarea name="product_description" rows="4" cols="50" required><?php echo $row['p_description'] ?></textarea><br><br>
+        <textarea name="product_description" rows="4" cols="50" required><?php echo $row['description'] ?></textarea><br><br>
 
         <label>Current Image:</label><br>
-        <img src="uploads/<?php echo $row['p_image'] ?>" height="80"><br><br>
+        <img src="uploads/<?php echo $row['image'] ?>" height="80"><br><br>
 
         <label>Change Image : </label><br>
         <input type="file" name="product_image"><br><br>

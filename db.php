@@ -1,18 +1,20 @@
 <?php
-// this file must take variables from enviornment constants!
+require_once __DIR__ . '/vendor/autoload.php';
 
-$conn = mysqli_connect("localhost","root","","product-crud");
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-  if (!$conn) {
-      die("Connection failed: " . mysqli_connect_error());
-  }
+// Now use environment variables for DB connection
+$conn = mysqli_connect(
+    $_ENV['DB_HOST'],
+    $_ENV['DB_USER'],
+    $_ENV['DB_PASS'],
+    $_ENV['DB_NAME']
+);
 
+if (!$conn) {
+    die("Connection Failed: " . mysqli_connect_error());
+}
 
-
-   // if (isset($_GET['search']) && !empty($_GET['search'])) {
-      //   $search = $_GET['search'];
-      //   $sql = "SELECT * FROM products WHERE name LIKE '%$search%'";
-      // } else {
-      //   $sql = "SELECT * FROM products";
-      // }
-      // Records per page
+define('UPLOAD_PATH', $_ENV['UPLOAD_PATH']);
+?>

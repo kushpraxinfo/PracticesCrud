@@ -31,7 +31,7 @@
   <?php
   // $toggle =  $_GET['sort'] . "ASC" ? $_GET['sort'] . "DESC " : $_GET['sort'] . "ASC" ;
 
-  $sort =  isset($_GET['sort']) ? $_GET['sort'] : 'p_id';
+  $sort =  isset($_GET['sort']) ? $_GET['sort'] : 'id';
   $order = isset($_GET['order']) && $_GET['order'] == "ASC" ? "ASC" : "DESC";
   $toggle = $order == "ASC" ? "DESC" : "ASC";
 
@@ -39,8 +39,8 @@
   <table id="mytable" class="table container" style="border: 2px solid black;">
     <thead>
       <tr>
-        <th scope="col"><a href="?sort=p_id&order=<?php echo $toggle; ?>">Product_Id</a></th>
-        <th scope="col"><a href="?sort=p_name&order=<?php echo $toggle; ?>">Name</a></th>
+        <th scope="col"><a href="?sort=id&order=<?php echo $toggle; ?>">Product_Id</a></th>
+        <th scope="col"><a href="?sort=name&order=<?php echo $toggle; ?>">Name</a></th>
         <th scope="col">Description</th>
         <th scope="col"><a href="?sort=price&order=<?php echo $toggle; ?>">Price</a></th>
         <th scope="col">Product Image</th>
@@ -61,8 +61,8 @@
         $search =  $_GET['search'];
 
         // Query when searching
-        $sql = "SELECT * FROM products WHERE price LIKE '%$search%' OR p_name LIKE '%$search%' LIMIT $start, $limit";
-        $countSql = "SELECT COUNT(*) AS totalRecord FROM products WHERE p_name LIKE '%$search%'";
+        $sql = "SELECT * FROM products WHERE price LIKE '%$search%' OR name LIKE '%$search%' LIMIT $start, $limit";
+        $countSql = "SELECT COUNT(*) AS totalRecord FROM products WHERE name LIKE '%$search%'";
       } else {
         // Query when no search
         $sql = "SELECT * FROM products ORDER BY $sort $order LIMIT $start, $limit";
@@ -73,14 +73,14 @@
       while ($row = mysqli_fetch_assoc($result)) {
         echo
         "<tr>
-        <td>{$row['p_id']}</td>
-        <td>{$row['p_name']}</td>
-        <td class='w-50'>{$row['p_description']}</td>
+        <td>{$row['id']}</td>
+        <td>{$row['name']}</td>
+        <td class='w-50'>{$row['description']}</td>
         <td>{$row['price']}</td>
-        <td><img height='50px' src='./uploads/{$row["p_image"]}'></td>
+        <td><img height='50px' src='./uploads/{$row["image"]}'></td>
         <td>
-            <a class='btn-primary btn' href='edit_product.php?p_id={$row["p_id"]}'><i class='fa-solid fa-pen me-2'></i>Edit</a>   
-            <a class='btn-danger btn' href='delete_product.php?p_id={$row["p_id"]}'><i class='fa-solid fa-trash me-2'></i>Delete</a>
+            <a class='btn-primary btn' href='edit_product.php?p_id={$row["id"]}'><i class='fa-solid fa-pen me-2'></i>Edit</a>   
+            <a class='btn-danger btn' href='delete_product.php?p_id={$row["id"]}'><i class='fa-solid fa-trash me-2'></i>Delete</a>
         </td>
         </tr>";
       }
@@ -94,7 +94,7 @@
     <ul class="pagination">
       <?php
       $countResult = mysqli_query($conn, $countSql);
-      $totalRecords = mysqli_fetch_row($countResult)['totalRecord'];
+      $totalRecords = mysqli_fetch_assoc($countResult)['totalRecord'];
       $totalPages = ceil($totalRecords / $limit);
 
       if ($page > 1) {
@@ -132,7 +132,7 @@
         </div>
 
         <div class="modal-body">
-          <form action="save-data.php" method="post" enctype="multipart/form-data">
+          <form action="save_data.php" method="post" enctype="multipart/form-data">
             <div class="mb-3">
               <label for="recipient-name" class="col-form-label">Name:</label>
               <input type="text" class="form-control" id="recipient-name" name="product_name" required>
