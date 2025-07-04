@@ -29,8 +29,7 @@
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add Products</button>
   </div>
   <?php
-  // $toggle =  $_GET['sort'] . "ASC" ? $_GET['sort'] . "DESC " : $_GET['sort'] . "ASC" ;
-
+  
   $sort =  isset($_GET['sort']) ? $_GET['sort'] : 'id';
   $order = isset($_GET['order']) && $_GET['order'] == "ASC" ? "ASC" : "DESC";
   $toggle = $order == "ASC" ? "DESC" : "ASC";
@@ -89,7 +88,6 @@
     </tbody>
   </table>
   <!-- Pagination links -->
-
   <div class="d-flex justify-content-center mt-4">
     <ul class="pagination">
       <?php
