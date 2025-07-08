@@ -1,6 +1,6 @@
 <?php
 
-require 'db.php';
+require_once 'db.php';
 
 // print_r($_GET);
 if (isset($_GET['p_id'])) {

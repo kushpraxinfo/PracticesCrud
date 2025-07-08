@@ -1,5 +1,5 @@
 <?php
-require 'db.php';
+require_once 'db.php';
 
 $name = $_POST['product_name'];
 $description = $_POST['description'];

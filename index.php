@@ -48,7 +48,7 @@
     </thead>
     <tbody>
       <?php
-      include 'db.php';
+      require_once 'db.php';
 
       $limit = 5;
       // Current page
