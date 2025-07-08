@@ -11,9 +11,4 @@ $conn = mysqli_connect(
     $_ENV['DB_NAME']
 );
 
-if (!$conn) {
-    die("Connection Failed: " . mysqli_connect_error());
-}
-
 define('UPLOAD_PATH', $_ENV['UPLOAD_PATH']);
-?>
