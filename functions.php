@@ -27,7 +27,30 @@ function addProduct($name, $description, $price, $image)
     return mysqli_query($conn, $sql);
 }
 
+function deleteProduct($id){
+    global $conn;
+    $sql = "DELETE FROM products WHERE id = $id";
+    return mysqli_query($conn,$sql);
+}
 
+function editProduct($name, $description, $price, $image ,$id){
+    global $conn;
+
+       if (!empty($_FILES['product_image']['name'])) {
+        $image = basename($_FILES['product_image']['name']);
+            $targetFile = "./uploads/" . $image;
+        move_uploaded_file($_FILES['product_image']['tmp_name'], $targetFile);
+    }
+
+    $sql = "UPDATE products SET 
+                name='$name', 
+                price='$price', 
+                description='$description',
+                image='$image'
+            WHERE id = $id";
+
+    return mysqli_query($conn,$sql);
+}
 // function getSortedProducts($sortColumn, $sortOrder)
 // {
 //     global $conn;

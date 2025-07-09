@@ -1,17 +1,12 @@
 <?php
 
 require_once 'db.php';
-
-    $id = $_GET['p_id'];
-
-    $sql = "DELETE FROM products WHERE p_id = $id";
-
-    if (mysqli_query($conn, $sql)) {
-        header("Location: index.php");
-        exit();
-    } else {
-        echo 'Cannot delete product.';
-    }
+require_once 'functions.php';
+$id = $_GET['p_id'];
+if (isset($_GET['p_id'])) {
+    deleteProduct($id);
+    header("Location: index.php");
+    exit();
+}
 
 mysqli_close($conn);
-?>
