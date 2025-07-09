@@ -19,12 +19,13 @@ if (isset($_GET['p_id'])) {
 if (isset($_POST['update'])) {
     $name  = $_POST['product_name'];
     $price = $_POST['product_price'];
-    $desc  = $_POST['product_description'];
+    $desc  = $_POST['product_description']; 
 
     // Check if a new image was uploaded
     if (!empty($_FILES['product_image']['name'])) {
         $image = basename($_FILES['product_image']['name']);
-        move_uploaded_file($_FILES['product_image']['tmp_name'], "./uploads" . $image);
+            $targetFile = "./uploads/" . $image;
+        move_uploaded_file($_FILES['product_image']['tmp_name'], $targetFile);
     } else {
         // No new image uploaded, keep old one
         $image = $row['image'];
