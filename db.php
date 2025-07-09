@@ -1,16 +1,17 @@
 <?php
 
 // Load database credentials from config.env
-$env = parse_ini_file(".env");
+// $env = parse_ini_file(".env");
 
-// Assign environment variables to PHP variables
-$host = $env['DB_HOST'];
-$user = $env['DB_USER'];
-$pass = $env['DB_PASS'];
-$dbname = $env['DB_NAME'];
+// // Assign environment variables to PHP variables
+// $host = $env['DB_HOST'];
+// $user = $env['DB_USER'];
+// $pass = $env['DB_PASS'];
+// $dbname = $env['DB_NAME'];
 
-// Connect to database
-$conn = mysqli_connect($host, $user, $pass, $dbname);
+// // Connect to database
+// $conn = mysqli_connect($host, $user, $pass, $dbname);
+$conn = mysqli_connect("localhost","root","","product-crud");
 
 // Check connection
 if (!$conn) {

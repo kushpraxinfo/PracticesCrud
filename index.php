@@ -29,7 +29,7 @@
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add Products</button>
   </div>
   <?php
-  
+
   $sort =  isset($_GET['sort']) ? $_GET['sort'] : 'id';
   $order = isset($_GET['order']) && $_GET['order'] == "ASC" ? "ASC" : "DESC";
   $toggle = $order == "ASC" ? "DESC" : "ASC";
@@ -49,23 +49,15 @@
     <tbody>
       <?php
       require_once 'db.php';
+      $search = $_GET['search'] ?? '';
 
-      $limit = 5;
-      // Current page
-      $page = isset($_GET['page']) ? $_GET['page'] : 1;
-      $start = ($page - 1) * $limit;
-
-      // Check for search value
-      if (!empty($_GET['search'])) {
-        $search =  $_GET['search'];
-
-        // Query when searching
-        $sql = "SELECT * FROM products WHERE price LIKE '%$search%' OR name LIKE '%$search%' LIMIT $start, $limit";
-        $countSql = "SELECT COUNT(*) AS totalRecord FROM products WHERE name LIKE '%$search%'";
+      if (!empty($search)) {
+        $sql = "SELECT * FROM products WHERE name LIKE '%$search%' OR price LIKE '%$search%'";
       } else {
-        // Query when no search
-        $sql = "SELECT * FROM products ORDER BY $sort $order LIMIT $start, $limit";
-        $countSql = "SELECT COUNT(*) AS totalRecord FROM products";
+        $limit = 5;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $start = ($page - 1) * $limit;
+        $sql = "SELECT * FROM products LIMIT $start, $limit";
       }
 
       $result = mysqli_query($conn, $sql);
@@ -91,28 +83,32 @@
   <div class="d-flex justify-content-center mt-4">
     <ul class="pagination">
       <?php
-      $countResult = mysqli_query($conn, $countSql);
-      $totalRecords = mysqli_fetch_assoc($countResult)['totalRecord'];
-      $totalPages = ceil($totalRecords / $limit);
+      if (empty($search)) {
+    
+        $countSql = "SELECT COUNT(*) as total FROM products";
+        $countResult = mysqli_query($conn, $countSql);
+        $totalRecords = mysqli_fetch_assoc($countResult)['total'];
+        $totalPages = ceil($totalRecords / $limit);
 
-      if ($page > 1) {
-        echo "<li class='page-item'>
+        if ($page > 1) {
+          echo "<li class='page-item'>
                 <a class='page-link' href='index.php?page=" . ($page - 1) . "'>Prev</a>
               </li>";
-      }
+        }
 
-      for ($i = 1; $i <= $totalPages; $i++) {
-        $active = ($i == $page) ? 'active' : '';
+        for ($i = 1; $i <= $totalPages; $i++) {
+          $active = ($i == $page) ? 'active' : '';
 
-        echo "<li class='page-item $active'>
+          echo "<li class='page-item $active'>
         <a class='page-link' href='index.php?page=$i'>$i</a></li>";
-      }
-      if ($totalPages > $page) {
-        echo "<li class='page-item $active'>
+        }
+
+        if ($totalPages > $page) {
+          echo "<li class='page-item'>
               <a class='page-link' href='index.php?page=" . ($page + 1) . "'>Next</a>
             </li>";
+        }
       }
-
       ?>
     </ul>
   </div>
