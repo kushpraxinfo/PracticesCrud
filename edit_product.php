@@ -24,7 +24,7 @@ if (isset($_POST['update'])) {
     // Check if a new image was uploaded
     if (!empty($_FILES['product_image']['name'])) {
         $image = basename($_FILES['product_image']['name']);
-        move_uploaded_file($_FILES['product_image']['tmp_name'], UPLOAD_PATH . $image);
+        move_uploaded_file($_FILES['product_image']['tmp_name'], "./uploads" . $image);
     } else {
         // No new image uploaded, keep old one
         $image = $row['image'];

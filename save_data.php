@@ -5,9 +5,9 @@ $name = $_POST['product_name'];
 $description = $_POST['description'];
 $price = $_POST['price'];
 
-$targetDir = "UPLOAD_PATH";
+$targetDir = "uploads/";
 $fileName = basename($_FILES["product_image"]["name"]);
-$targetFile = $targetDir . $fileName;
+$targetFile = $targetFile . $fileName;
 
 // Move file to upload folder
 if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $targetFile)) {

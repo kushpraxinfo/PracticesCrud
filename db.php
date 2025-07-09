@@ -1,14 +1,20 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+// Load database credentials from config.env
+$env = parse_ini_file(".env");
 
-$conn = mysqli_connect(
-    $_ENV['DB_HOST'],
-    $_ENV['DB_USER'],
-    $_ENV['DB_PASS'],
-    $_ENV['DB_NAME']
-);
+// Assign environment variables to PHP variables
+$host = $env['DB_HOST'];
+$user = $env['DB_USER'];
+$pass = $env['DB_PASS'];
+$dbname = $env['DB_NAME'];
 
-define('UPLOAD_PATH', $_ENV['UPLOAD_PATH']);
+// Connect to database
+$conn = mysqli_connect($host, $user, $pass, $dbname);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+define('UPLOAD_PATH', $env['UPLOAD_PATH'] ?? '');
