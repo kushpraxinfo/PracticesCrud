@@ -4,7 +4,7 @@ This is a test project!
 Follow below guidelines!
 ## 🔧 Setup Instructions
 
-1. Create a `.env` file in your root folder:
+1. Create a `config.env` file in your root folder:
 
 DB_HOST=localhost
 DB_USER=your_mysql_username
