@@ -1,6 +1,6 @@
 <?php
-require_once 'db.php';
-require_once 'functions.php';
+require_once 'global/db.php';
+require_once 'global/functions.php';
 $limit = 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $limit;
@@ -101,7 +101,7 @@ if (!empty($search)) {
   <!-- Modal to Add Product -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-      <form action="save_data.php" method="POST" enctype="multipart/form-data" class="modal-content">
+      <form action="save_product.php" method="POST" enctype="multipart/form-data" class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Add Product</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

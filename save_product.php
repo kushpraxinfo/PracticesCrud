@@ -1,6 +1,6 @@
 <?php
-require_once 'db.php';
-require 'functions.php';
+require_once 'global/db.php';
+require_once 'global/functions.php';
 
 
 $name = $_POST['product_name'];
