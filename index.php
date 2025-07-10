@@ -5,12 +5,11 @@ $limit = 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $limit;
 
-$search = isset($_GET['search']) ? $_GET['search'] : '';
+$search = isset($_GET['search']) ? $_GET['search'] : '';  //one line add
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'id';
 $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
 $toggle = ($order === 'ASC') ? 'DESC' : 'ASC';
 
-// Product fetching logic
 if (!empty($search)) {
     $result = getProductsBySearch($search, $sort, $order);
 } else {
@@ -36,7 +35,7 @@ if (!empty($search)) {
   <hr>
 
   <form method="GET" class="d-flex justify-content-lg-end me-5 mb-3">
-    <input type="text" name="search" placeholder="Search by Name Or Price" class="form-control w-25 me-2" value="<?php echo htmlspecialchars($search); ?>">
+    <input type="text" name="search" placeholder="Search by Name Or Price" class="form-control w-25 me-2" value="<?php echo $search; ?>">
     <button type="submit" class="btn btn-success">Search</button>
   </form>
 
@@ -57,7 +56,7 @@ if (!empty($search)) {
     </thead>
     <tbody>
       <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-        <tr>
+       <tr>
           <td><?php echo $row['id']; ?></td>
           <td><?php echo $row['name']; ?></td>
           <td class="w-50"><?php echo $row['description']; ?></td>
@@ -67,7 +66,7 @@ if (!empty($search)) {
             <a class="btn btn-primary" href="edit_product.php?p_id=<?php echo $row['id']; ?>"><i class="fa-solid fa-pen me-2"></i>Edit</a>
             <a class="btn btn-danger" href="delete_product.php?p_id=<?php echo $row['id']; ?>"><i class="fa-solid fa-trash me-2"></i>Delete</a>
           </td>
-        </tr>
+        </tr> 
       <?php } ?>
     </tbody>
   </table>

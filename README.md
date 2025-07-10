@@ -2,7 +2,7 @@
 This is a test project! 
 
 Follow below guidelines!
-## 🔧 Setup Instructions
+##  Setup Instructions
 
 1. Create a `config.env` file in your root folder:
 
