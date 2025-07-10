@@ -82,16 +82,16 @@ if (!empty($search)) {
         $totalPages = ceil($totalRecords / $limit);
 
         if ($page > 1) {
-          echo "<li class='page-item'><a class='page-link' href='?page=" . ($page - 1) . "&sort=$sort&order=$order'>Prev</a></li>";
+          echo "<li class='page-item'><a class='page-link' href='?page=" . ($page - 1) . "'>Prev</a></li>";
         }
 
         for ($i = 1; $i <= $totalPages; $i++) {
           $active = ($i == $page) ? 'active' : '';
-          echo "<li class='page-item $active'><a class='page-link' href='?page=$i&sort=$sort&order=$order'>$i</a></li>";
+          echo "<li class='page-item $active'><a class='page-link' href='?page=$i'>$i</a></li>";
         }
 
         if ($page < $totalPages) {
-          echo "<li class='page-item'><a class='page-link' href='?page=" . ($page + 1) . "&sort=$sort&order=$order'>Next</a></li>";
+          echo "<li class='page-item'><a class='page-link' href='?page=" . ($page + 1) . "'>Next</a></li>";
         }
       }
       ?>
