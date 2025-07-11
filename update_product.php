@@ -1,29 +1,37 @@
 <?php
 
-require_once 'db.php';
-require_once 'functions.php';
+require_once 'global/db.php';
+require_once 'global/class_function.php';
+
+$product = new Product($conn);
 // print_r($_GET);
-if (isset($_GET['p_id'])) {
-    $id = $_GET['p_id'];
+
+if (isset($_POST['update'])) {
+    $id = $_POST['id'];
 
     $sql = "SELECT * FROM products WHERE id = $id";
     $result = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-    } else {
-        echo "Product not found";
-        exit();
-    }
-}
+    $row = mysqli_fetch_assoc($result);
 
-if (isset($_POST['update'])) {
     $name  = $_POST['product_name'];
     $price = $_POST['product_price'];
     $desc  = $_POST['product_description'];
 
-    editProduct($name, $desc, $price, $image, $id);
+    if (!empty($_FILES['product_image']['name'])) {
+        $image = basename($_FILES['product_image']['name']);
+        $targetFile = "./uploads/" . $image;
+        move_uploaded_file($_FILES['product_image']['tmp_name'], $targetFile);
+    }else{
+        $image = $row['image'] ;
+    }
+
+    $product->editProduct($name, $desc, $price, $image, $id);
     header("Location: index.php");
     exit();
 }
+ 
+
+
+
 
 ?>

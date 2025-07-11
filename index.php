@@ -1,6 +1,5 @@
 <?php
-require_once 'global/db.php';
-require_once 'global/functions.php';
+require_once 'global/class_function.php';
 $limit = 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $limit;
@@ -10,16 +9,19 @@ $sort = isset($_GET['sort']) ? $_GET['sort'] : 'id';
 $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
 $toggle = ($order === 'ASC') ? 'DESC' : 'ASC';
 
+$product = new Product($conn);
+
 if (!empty($search)) {
-    $result = getProductsBySearch($search, $sort, $order);
+  $result = $product->getProductsBySearch($search, $sort, $order);
 } else {
-    $result = getAllProducts($sort, $order, $start, $limit);
+  $result = $product->getAllProducts($sort, $order, $start, $limit);
 }
 // $result = mysqli_query($conn, $sql);
 ?>
 
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,6 +29,7 @@ if (!empty($search)) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" />
 </head>
+
 <body>
   <hr>
   <div id="heading" class="text-center">
@@ -56,7 +59,7 @@ if (!empty($search)) {
     </thead>
     <tbody>
       <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-       <tr>
+        <tr>
           <td><?php echo $row['id']; ?></td>
           <td><?php echo $row['name']; ?></td>
           <td class="w-50"><?php echo $row['description']; ?></td>
@@ -66,7 +69,7 @@ if (!empty($search)) {
             <a class="btn btn-primary" href="edit_product.php?p_id=<?php echo $row['id']; ?>"><i class="fa-solid fa-pen me-2"></i>Edit</a>
             <a class="btn btn-danger" href="delete_product.php?p_id=<?php echo $row['id']; ?>"><i class="fa-solid fa-trash me-2"></i>Delete</a>
           </td>
-        </tr> 
+        </tr>
       <?php } ?>
     </tbody>
   </table>
@@ -122,4 +125,5 @@ if (!empty($search)) {
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
