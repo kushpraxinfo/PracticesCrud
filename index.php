@@ -1,5 +1,7 @@
 <?php
-require_once 'model/product.php';
+
+require_once 'global/db.php';
+require_once 'models/Products.php';
 $limit = 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $limit;
@@ -10,11 +12,11 @@ $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
 $toggle = ($order === 'ASC') ? 'DESC' : 'ASC';
 
 // $product = new Product($conn,$name,$description,$price,$fileName);
-
+Product::setDBConnection($conn);
 if (!empty($search)) {
-    $result = Product::getProductsBySearch($conn, $search, $sort, $order);
+    $result = Product::getProductsBySearch( $search, $sort, $order);
 } else {
-    $result = Product::getAll($conn, $sort, $order, $start, $limit);
+    $result = Product::getAll($sort, $order, $start, $limit);
 }
 
 // $result = mysqli_query($conn, $sql);

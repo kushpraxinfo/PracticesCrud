@@ -1,30 +1,42 @@
 <?php
-require_once 'global/db.php';
-
 class Product
 {
-    private $conn;
+    public static $conn;
 
     public $id, $name, $price, $description, $image;
 
      public function __construct($connection,$name,$price,$description,$image)
     {
-        $this->conn = $connection;
+        if (empty(self::$conn)){
+            self::$conn = $connection;
+        }
         $this->name = $name;
         $this->price = $price;
         $this->description = $description;
         $this->image = $image;
     }
  
-    public static function getAll($conn, $sort, $order, $start, $limit)
+    public static function setDBConnection($dbConnection) {
+        self::$conn = $dbConnection;
+    }
+
+    public static function getDBConnection() {
+        if (empty(self::$conn)){
+            throw new Exception("DB Connection Not available!");
+        }
+        return self::$conn;
+    }
+    public static function getAll($sort, $order, $start, $limit)
     {
+        $conn = self::getDBConnection();
         $sql = "SELECT * FROM products ORDER BY $sort $order LIMIT $start, $limit";
         return mysqli_query($conn, $sql);
     }
 
 
-    public static function getProductsBySearch($conn, $search, $sort, $order)
+    public static function getProductsBySearch($search, $sort, $order)
     {
+         $conn = self::getDBConnection();
         $sql = "SELECT * FROM products 
                 WHERE name LIKE '%$search%' OR price LIKE '%$search%' 
                 ORDER BY $sort $order";
@@ -32,8 +44,9 @@ class Product
     }
 
 
-    public static function findById($conn, $id)
+    public static function findById($id)
     {
+        $conn = self::getDBConnection();
         $sql = "SELECT * FROM products WHERE id = $id";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
@@ -46,16 +59,17 @@ class Product
 
     public function add()
     {
+        $conn = self::getDBConnection();
         $sql = "INSERT INTO products (name, description, price, image) 
                 VALUES ('$this->name', '$this->description', '$this->price', '$this->image')";
-        return mysqli_query($this->conn, $sql);
+        return mysqli_query($conn, $sql);
     }
 
 
     public function delete()
     {
         $sql = "DELETE FROM products WHERE id = $this->id";
-        return mysqli_query($this->conn, $sql);
+        return mysqli_query(self::$conn, $sql);
     }
 
 
@@ -74,6 +88,6 @@ class Product
                     image='$this->image'
                 WHERE id = $this->id";
 
-        return mysqli_query($this->conn, $sql);
+        return mysqli_query(self::$conn, $sql);
     }
 }

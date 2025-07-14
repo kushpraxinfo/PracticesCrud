@@ -1,6 +1,6 @@
 <?php
 require_once 'global/db.php';
-require_once 'model/product.php';
+require_once 'models/Products.php';
 
 $name = $_POST['product_name'];
 $description = $_POST['description'];

@@ -1,12 +1,12 @@
 <?php require_once 'global/db.php';
-require_once 'model/product.php';
+require_once 'models/products.php';
 // print_r($_GET);
-// $product = new Product($conn,$name,$description,$price,$fileName);
 
 $row = [];
 if(isset($_GET['p_id'])){
     $id = $_GET['p_id'];
-    $row = Product::findById($conn, $id);
+    Product::setDBConnection($conn);
+    $row = Product::findById($id);
 }
 
 ?>
