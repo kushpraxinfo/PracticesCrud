@@ -1,31 +1,22 @@
 <?php
+require_once("global/Database.php");
+
 class Product
 {
-    public static $conn;
-
     public $id, $name, $price, $description, $image;
 
-     public function __construct($connection,$name,$price,$description,$image)
+    public function __construct($name, $price, $description, $image)
     {
-        if (empty(self::$conn)){
-            self::$conn = $connection;
-        }
         $this->name = $name;
         $this->price = $price;
         $this->description = $description;
         $this->image = $image;
     }
- 
-    public static function setDBConnection($dbConnection) {
-        self::$conn = $dbConnection;
-    }
 
     public static function getDBConnection() {
-        if (empty(self::$conn)){
-            throw new Exception("DB Connection Not available!");
-        }
-        return self::$conn;
+        return Database::getInstance()->getConnection();
     }
+
     public static function getAll($sort, $order, $start, $limit)
     {
         $conn = self::getDBConnection();
@@ -33,16 +24,14 @@ class Product
         return mysqli_query($conn, $sql);
     }
 
-
     public static function getProductsBySearch($search, $sort, $order)
     {
-         $conn = self::getDBConnection();
+        $conn = self::getDBConnection();
         $sql = "SELECT * FROM products 
                 WHERE name LIKE '%$search%' OR price LIKE '%$search%' 
                 ORDER BY $sort $order";
         return mysqli_query($conn, $sql);
     }
-
 
     public static function findById($id)
     {
@@ -56,7 +45,6 @@ class Product
         }
     }
 
-
     public function add()
     {
         $conn = self::getDBConnection();
@@ -65,16 +53,17 @@ class Product
         return mysqli_query($conn, $sql);
     }
 
-
     public function delete()
     {
+        $conn = self::getDBConnection();
         $sql = "DELETE FROM products WHERE id = $this->id";
-        return mysqli_query(self::$conn, $sql);
+        return mysqli_query($conn, $sql);
     }
-
 
     public function edit()
     {
+        $conn = self::getDBConnection();
+
         if (!empty($_FILES['product_image']['name'])) {
             $this->image = basename($_FILES['product_image']['name']);
             $targetFile = "./uploads/" . $this->image;
@@ -88,6 +77,6 @@ class Product
                     image='$this->image'
                 WHERE id = $this->id";
 
-        return mysqli_query(self::$conn, $sql);
+        return mysqli_query($conn, $sql);
     }
 }

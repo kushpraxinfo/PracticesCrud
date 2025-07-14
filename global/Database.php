@@ -1,24 +1,37 @@
 <?php
 
-class Database{
+class Database {
 
-    private static $_database;
-    public $sql;
-    public $errors;
-    
-    private function __construct(){
-        
-    }
+    private static $_instance = null;
+    private $conn;
 
-    public static function getInstance(){
-        if(empty(self::$_database)){
-            self::$_database = new Database();
+    private function __construct() {
+        $env = parse_ini_file("config.env");
+
+        if (!$env) {
+            die("Error: config.env file missing or invalid.");
         }
-        return self::$_database;
+
+        $host = $env['DB_HOST'];
+        $user = $env['DB_USER'];
+        $pass = $env['DB_PASS'];
+        $dbname = $env['DB_NAME'];
+
+        $this->conn = mysqli_connect($host, $user, $pass, $dbname);
+
+        if (!$this->conn) {
+            die("DB Connection failed: " . mysqli_connect_error());
+        }
     }
 
+    public static function getInstance() {
+        if (self::$_instance === null) {
+            self::$_instance = new Database();
+        }
+        return self::$_instance;
+    }
 
-
+    public function getConnection() {
+        return $this->conn;
+    }
 }
-
-?>

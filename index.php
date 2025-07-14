@@ -1,6 +1,6 @@
 <?php
 
-require_once 'global/db.php';
+require_once 'global/Database.php';
 require_once 'models/Products.php';
 $limit = 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -12,7 +12,7 @@ $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
 $toggle = ($order === 'ASC') ? 'DESC' : 'ASC';
 
 // $product = new Product($conn,$name,$description,$price,$fileName);
-Product::setDBConnection($conn);
+    $conn = Database::getInstance()->getConnection();
 if (!empty($search)) {
     $result = Product::getProductsBySearch( $search, $sort, $order);
 } else {

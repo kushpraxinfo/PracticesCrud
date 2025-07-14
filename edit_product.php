@@ -5,7 +5,7 @@ require_once 'models/products.php';
 $row = [];
 if(isset($_GET['p_id'])){
     $id = $_GET['p_id'];
-    Product::setDBConnection($conn);
+
     $row = Product::findById($id);
 }
 
