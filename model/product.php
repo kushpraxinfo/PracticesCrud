@@ -7,12 +7,15 @@ class Product
 
     public $id, $name, $price, $description, $image;
 
-     public function __construct($connection)
+     public function __construct($connection,$name,$price,$description,$image)
     {
         $this->conn = $connection;
+        $this->name = $name;
+        $this->price = $price;
+        $this->description = $description;
+        $this->image = $image;
     }
-
-
+ 
     public static function getAll($conn, $sort, $order, $start, $limit)
     {
         $sql = "SELECT * FROM products ORDER BY $sort $order LIMIT $start, $limit";

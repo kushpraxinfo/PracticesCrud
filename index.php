@@ -9,7 +9,8 @@ $sort = isset($_GET['sort']) ? $_GET['sort'] : 'id';
 $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
 $toggle = ($order === 'ASC') ? 'DESC' : 'ASC';
 
-$product = new Product($conn);
+// $product = new Product($conn,$name,$description,$price,$fileName);
+
 if (!empty($search)) {
     $result = Product::getProductsBySearch($conn, $search, $sort, $order);
 } else {
@@ -67,7 +68,7 @@ if (!empty($search)) {
           <td><img height="50px" src="./uploads/<?php echo $row['image']; ?>"></td>
           <td>
             <a class="btn btn-primary" href="edit_product.php?p_id=<?php echo $row['id']; ?>"><i class="fa-solid fa-pen me-2"></i>Edit</a>
-            <a class="btn btn-danger" href="delete_product.php?p_id=<?php echo $row['id']; ?>"><i class="fa-solid fa-trash me-2"></i>Delete</a>
+            <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="delete_product.php?p_id=<?php echo $row['id']; ?>"><i class="fa-solid fa-trash me-2"></i>Delete</a>
           </td>
         </tr>
       <?php } ?>

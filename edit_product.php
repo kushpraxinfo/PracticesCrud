@@ -1,7 +1,7 @@
 <?php require_once 'global/db.php';
 require_once 'model/product.php';
-
-$product = new Product($conn);
+// print_r($_GET);
+// $product = new Product($conn,$name,$description,$price,$fileName);
 
 $row = [];
 if(isset($_GET['p_id'])){

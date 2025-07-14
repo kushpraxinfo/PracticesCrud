@@ -12,12 +12,13 @@ $targetFile = $targetDir . $fileName;
 
 // Move uploaded file
 if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $targetFile)) {
-    $product = new Product($conn);
-
-    $product->name = $name;
-    $product->description = $description;
-    $product->price = $price;
-    $product->image = $fileName;
+    $product = new Product($conn,$name,$price,$description,$fileName);
+    // print_r($product);
+    
+    // $product->name = $name;
+    // $product->description = $description;
+    // $product->price = $price;
+    // $product->image = $fileName;
 
     $product->add();
     header("Location: index.php");
