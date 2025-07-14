@@ -1,5 +1,5 @@
 <?php
-require_once 'global/class_function.php';
+require_once 'model/product.php';
 $limit = 5;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $start = ($page - 1) * $limit;
@@ -10,12 +10,12 @@ $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
 $toggle = ($order === 'ASC') ? 'DESC' : 'ASC';
 
 $product = new Product($conn);
-
 if (!empty($search)) {
-  $result = $product->getProductsBySearch($search, $sort, $order);
+    $result = Product::getProductsBySearch($conn, $search, $sort, $order);
 } else {
-  $result = $product->getAllProducts($sort, $order, $start, $limit);
+    $result = Product::getAll($conn, $sort, $order, $start, $limit);
 }
+
 // $result = mysqli_query($conn, $sql);
 ?>
 

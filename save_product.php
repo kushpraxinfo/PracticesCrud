@@ -1,7 +1,6 @@
 <?php
 require_once 'global/db.php';
-require_once 'global/class_function.php';
-$product = new Product($conn);
+require_once 'model/product.php';
 
 $name = $_POST['product_name'];
 $description = $_POST['description'];
@@ -13,13 +12,18 @@ $targetFile = $targetDir . $fileName;
 
 // Move uploaded file
 if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $targetFile)) {
-    // Save to DB
-        $product->addProduct($name, $description, $price, $fileName);
-        header("Location: index.php");
-        exit();
-    } else {
-        echo "Product is not added: " . mysqli_error($conn);
-    }
+    $product = new Product($conn);
+
+    $product->name = $name;
+    $product->description = $description;
+    $product->price = $price;
+    $product->image = $fileName;
+
+    $product->add();
+    header("Location: index.php");
+    exit();
+} else {
+    echo "Product is not added: " . mysqli_error($conn);
+}
 
 mysqli_close($conn);
-?>
